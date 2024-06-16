@@ -1,0 +1,54 @@
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+
+  --white-100: #ffffff;
+  --black-100: #000000;
+  --grey-100: #ECECEC;
+
+  color-scheme: light dark;
+  color: var(--black-100);              
+  background-color: var(--white-100);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: 'UTM Bebas';
+  src: url('/font/UTM Bebas.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'BT BeauSans Regular';
+  src: url('/font/BT-BeauSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'BT BeauSans Medium';
+  src: url('/font/BT-BeauSans-Medium.ttf') format('truetype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: 'BT BeauSans Regular';
+  font-size: 62.5%;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+.grid {
+  column-gap: 2rem;
+  display: grid;
+}

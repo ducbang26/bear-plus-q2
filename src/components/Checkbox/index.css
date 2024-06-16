@@ -1,0 +1,82 @@
+form {
+	width: 100%;
+}
+
+.form-group {
+    margin: 1rem 0;
+	width: 100%;
+	position: relative;
+}
+
+[type="checkbox"]:not(:checked), 
+[type="checkbox"]:checked {
+	/* Hide the checkbox without
+	   making it hidden for the
+	   screen readers */
+	position: absolute;
+	left: 0;
+	opacity: 0.01;
+}
+
+/* Prepare the label */
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+	position: relative; /* allows to position the custom boxes */
+	padding-left: 2.3em; /* room for upcoming boxes */
+	font-size: 1.4rem;
+	line-height: 150%;
+	cursor: pointer; 
+}
+
+[type="checkbox"]:not(:checked) + label::before,
+[type="checkbox"]:checked + label::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 1.3em;
+	height: 1.3em;
+	border: 1px solid #0000007d;
+	background: #FFF;
+	border-radius: .2em;
+	transition: all .275s;
+	transform: translate(0, -50%);
+}
+
+/* Check aspect */
+input[type="checkbox"]:not(:checked) + label::after,
+input[type="checkbox"]:checked + label::after {
+	content: '•';
+	speak: never; /* To be sure screen reader won't read "times" */
+	position: absolute;
+	top: .5em;
+	left: .20em;
+	font-size: 1.375em;
+	color: #B12703;
+	line-height: 0;
+	transition: all .2s; /* Little transition */
+}
+
+/* Unchecked aspect */
+input[type="checkbox"]:not(:checked) + label::after {
+	opacity: 0;
+	transform: scale(0) rotate(45deg);
+}
+
+/* Checked aspect */
+input[type="checkbox"]:checked + label::after {
+	opacity: 1;
+	transform: scale(1) rotate(0);
+}
+
+[type="checkbox"]:not(:checked) + label {
+	color: rgba(0, 0, 0, 0.6);
+}
+
+input[type="checkbox"]:checked + label {
+	color: #B12703;
+}
+
+[type="checkbox"]:checked + label::before {
+	border: 1px solid #B12703;
+}

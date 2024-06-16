@@ -1,0 +1,35 @@
+.heading_wrap{
+    margin-top: 11rem;
+    margin-bottom: 17rem;
+}
+
+.heading {
+    grid-area: 1 / 1 / span 5 / span 5;
+
+    &_text {
+        font-family: 'UTM Bebas';
+        font-size: 8.10185185vw;
+        line-height: 110%;
+        position: relative;
+
+        .quantity {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-family: 'BT BeauSans Regular';
+            font-size: 1.8rem;
+            line-height: 170%;
+        }
+    }
+}
+
+.subtitle {
+    grid-area: 1 / 10 / span 6 / span 6;
+    display: flex;
+    justify-content: flex-end;
+
+    .text {
+        font-size: 0.925925926vw;
+        line-height: 170%;
+    }
+}
