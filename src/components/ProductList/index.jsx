@@ -120,7 +120,7 @@ const ProductList = () => {
             {products.length != 0 &&
               products.map((item, index) => {
                 return (
-                  <div key={index} className={s.item}>
+                  <div key={index} className={`${s.item} ${s.animate} ${s.fadeInUp}`}>
                     <Card
                       image={item.fields.image.fields.file.url}
                       name={item.fields.productName}

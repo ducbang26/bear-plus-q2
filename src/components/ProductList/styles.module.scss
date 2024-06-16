@@ -35,11 +35,36 @@
         grid-column-start: 4;
     }
 
-    .item:nth-child(4), .item:nth-child(7) {
+    .item:nth-child(4),
+    .item:nth-child(7) {
         grid-column-start: 1;
     }
 
-    .item:nth-child(5), .item:nth-child(8) {
+    .item:nth-child(5),
+    .item:nth-child(8) {
         grid-column-start: 2;
     }
+}
+
+.animate {
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-delay: 0.5s;
+    -moz-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+}
+
+.fadeInUp {
+    animation: 500ms fadeInUp ease-in-out;
 }
