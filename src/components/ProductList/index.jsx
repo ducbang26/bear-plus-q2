@@ -6,6 +6,7 @@ import Checkbox from "../Checkbox";
 import Search from "../Search";
 import { getPageContent } from "../../api/contentful";
 import { Card } from "../Card";
+import DropdownItem from "../Dropdown/DropdownItem";
 
 const Loading = () => {
   return (
@@ -37,9 +38,12 @@ const ProductList = () => {
     "Plants - Flowers - Insects",
   ];
 
+  const items = ['sort DESC', 'sort ASC'];
+
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [originProducts, setOriginProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [categoryFilters, setcategoryFilters] = useState(new Set());
 
   const handleSearchTermChange = (e) => {
@@ -68,15 +72,15 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    const availableProduct = products.reduce((acc, product) => {
-      if (product.fields.productName.includes(searchTerm)) {
+    const availableProduct = filteredProducts.reduce((acc, product) => {
+      if (product.fields.productName.toLowerCase().includes(searchTerm.toLowerCase())) {
         acc.push(product);
       }
       return acc;
     }, []);
 
     if (searchTerm == "") {
-      setProducts(originProducts);
+      setProducts(filteredProducts);
     } else setProducts(availableProduct);
   }, [searchTerm]);
 
@@ -87,6 +91,7 @@ const ProductList = () => {
         : originProducts.filter((p) => categoryFilters.has(p.fields.category));
 
     setProducts(filteredProducts);
+    setFilteredProducts(filteredProducts);
   }, [categoryFilters]);
 
   return (
@@ -107,6 +112,18 @@ const ProductList = () => {
                     />
                   ))}
                 </form>
+              </>
+            }
+          />
+        </div>
+        <div className={s.sort}>
+          <Dropdown
+            buttonText="Dropdown button"
+            content={
+              <>
+                {items.map((item, id) => (
+                  <DropdownItem key={id}>{`${item}`}</DropdownItem>
+                ))}
               </>
             }
           />
