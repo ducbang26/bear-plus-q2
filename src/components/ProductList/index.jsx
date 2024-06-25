@@ -38,9 +38,13 @@ const ProductList = () => {
     "Plants - Flowers - Insects",
   ];
 
-  const items = ['sort DESC', 'sort ASC'];
+  const items = [
+    { name: "Price: High to Low", value: "DESC" },
+    { name: "Price: Low to High", value: "ASC" },
+  ];
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortPrice, setSortPrice] = useState("");
   const [products, setProducts] = useState([]);
   const [originProducts, setOriginProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -61,11 +65,16 @@ const ProductList = () => {
       });
   }
 
+  const handleSortPrice = (item) => {
+    setSortPrice(item.value);
+  };
+
   useEffect(() => {
     async function fetchData() {
       const res = await Promise.all([getPageContent("product")]);
       setProducts(res[0].items);
       setOriginProducts(res[0].items);
+      setFilteredProducts(res[0].items);
     }
 
     fetchData();
@@ -73,7 +82,11 @@ const ProductList = () => {
 
   useEffect(() => {
     const availableProduct = filteredProducts.reduce((acc, product) => {
-      if (product.fields.productName.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (
+        product.fields.productName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
         acc.push(product);
       }
       return acc;
@@ -90,9 +103,24 @@ const ProductList = () => {
         ? originProducts
         : originProducts.filter((p) => categoryFilters.has(p.fields.category));
 
+    if (sortPrice == "ASC") {
+      filteredProducts.sort(function (a, b) {
+        return b.fields.price - a.fields.price;
+      });
+    } else if (sortPrice == "DESC") {
+      filteredProducts.sort(function (a, b) {
+        return a.fields.price - b.fields.price;
+      });
+    }
+
     setProducts(filteredProducts);
     setFilteredProducts(filteredProducts);
-  }, [categoryFilters]);
+  }, [categoryFilters, sortPrice]);
+
+  // useEffect(() => {
+
+  //   setProducts(filteredProducts);
+  // }, [sortPrice]);
 
   return (
     <div className={s.product_list_wrap}>
@@ -118,11 +146,15 @@ const ProductList = () => {
         </div>
         <div className={s.sort}>
           <Dropdown
-            buttonText="Dropdown button"
+            buttonText="Sort by"
             content={
               <>
                 {items.map((item, id) => (
-                  <DropdownItem key={id}>{`${item}`}</DropdownItem>
+                  <DropdownItem
+                    key={id}
+                    className={sortPrice === item.value ? "selected" : ""}
+                    onClick={() => handleSortPrice(item)}
+                  >{`${item.name}`}</DropdownItem>
                 ))}
               </>
             }
@@ -137,7 +169,10 @@ const ProductList = () => {
             {products.length != 0 &&
               products.map((item, index) => {
                 return (
-                  <div key={index} className={`${s.item} ${s.animate} ${s.fadeInUp}`}>
+                  <div
+                    key={index}
+                    className={`${s.item} ${s.animate} ${s.fadeInUp}`}
+                  >
                     <Card
                       image={item.fields.image.fields.file.url}
                       name={item.fields.productName}

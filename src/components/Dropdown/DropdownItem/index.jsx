@@ -1,7 +1,7 @@
 
-const DropdownItem = ({ children, onClick }) => {
+const DropdownItem = ({ children, className, onClick }) => {
   return (
-    <div className="dropdown-item" onClick={onClick}>
+    <div className={`dropdown-item ${className}`} onClick={onClick}>
       {children}
     </div>
   );
