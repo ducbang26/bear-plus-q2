@@ -3,7 +3,7 @@ import s from "./styles.module.scss";
 
 const Search = ({ value, onChange }) => {
   return (
-    <form className={s.search}>
+    <form className={s.search} onSubmit={e => { e.preventDefault(); }}>
       <span>
         <svg
           width="16"

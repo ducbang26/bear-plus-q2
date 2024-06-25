@@ -48,6 +48,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [originProducts, setOriginProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [sortedProducts, setSortedProducts] = useState([]);
   const [categoryFilters, setcategoryFilters] = useState(new Set());
 
   function formatCash(str) {
@@ -74,10 +75,6 @@ const ProductList = () => {
       });
   }
 
-  const handleSortPrice = (item) => {
-    setSortPrice(item.value);
-  };
-
   useEffect(() => {
     async function fetchData() {
       const res = await Promise.all([getPageContent("product")]);
@@ -101,7 +98,9 @@ const ProductList = () => {
       return acc;
     }, []);
 
-    if (searchTerm == "") {
+    if (searchTerm == "" && sortPrice != "") {
+      setProducts(sortedProducts);
+    } else if (searchTerm == "" && sortPrice == "") {
       setProducts(filteredProducts);
     } else setProducts(availableProduct);
   }, [searchTerm]);
@@ -112,11 +111,11 @@ const ProductList = () => {
         ? originProducts
         : originProducts.filter((p) => categoryFilters.has(p.fields.category));
 
-    if (sortPrice == "ASC") {
+    if (sortPrice == "DESC") {
       filteredProducts.sort(function (a, b) {
         return b.fields.price - a.fields.price;
       });
-    } else if (sortPrice == "DESC") {
+    } else if (sortPrice == "ASC") {
       filteredProducts.sort(function (a, b) {
         return a.fields.price - b.fields.price;
       });
@@ -124,12 +123,33 @@ const ProductList = () => {
 
     setProducts(filteredProducts);
     setFilteredProducts(filteredProducts);
-  }, [categoryFilters, sortPrice]);
+  }, [categoryFilters]);
 
-  // useEffect(() => {
+  useEffect(() => {
+    let sorted = [];
+    if (searchTerm == "") {
+      sorted = [...filteredProducts];
+    } else {
+      sorted = [...products];
+    }
 
-  //   setProducts(filteredProducts);
-  // }, [sortPrice]);
+    if (sortPrice == "DESC") {
+      sorted.sort(function (a, b) {
+        return b.fields.price - a.fields.price;
+      });
+      setProducts(sorted);
+      setSortedProducts(sorted);
+    } else if (sortPrice == "ASC") {
+      sorted.sort(function (a, b) {
+        return a.fields.price - b.fields.price;
+      });
+      setProducts(sorted);
+      setSortedProducts(sorted);
+    } else {
+      setProducts(filteredProducts);
+      setSortedProducts(sorted);
+    }
+  }, [sortPrice]);
 
   return (
     <div className={s.product_list_wrap}>
@@ -162,7 +182,7 @@ const ProductList = () => {
                   <DropdownItem
                     key={id}
                     className={sortPrice === item.value ? "selected" : ""}
-                    onClick={() => handleSortPrice(item)}
+                    onClick={() => setSortPrice(item.value)}
                   >{`${item.name}`}</DropdownItem>
                 ))}
               </>
