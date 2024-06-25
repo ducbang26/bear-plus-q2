@@ -50,6 +50,15 @@ const ProductList = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categoryFilters, setcategoryFilters] = useState(new Set());
 
+  function formatCash(str) {
+    return str
+      .split("")
+      .reverse()
+      .reduce((prev, next, index) => {
+        return (index % 3 ? next : next + ",") + prev;
+      });
+  }
+
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -176,7 +185,7 @@ const ProductList = () => {
                     <Card
                       image={item.fields.image.fields.file.url}
                       name={item.fields.productName}
-                      price={item.fields.price}
+                      price={formatCash(item.fields.price.toString())}
                       category={item.fields.category}
                     />
                   </div>

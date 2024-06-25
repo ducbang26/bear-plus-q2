@@ -10,7 +10,7 @@ export const Card = ({image, name, price, category}) => {
 		</div>
 		<div className="product-details">
 			<h4><a href="">{name}</a></h4>
-			<p>{price}</p>
+			<p>{price} đ</p>
 		</div>
 	</div>
   )
